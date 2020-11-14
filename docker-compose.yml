@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+  session-redis:
+    image: redis
+    container_name: open360-redis-session
+    hostname: open360-redis-session
+    #DEBUG VARIABLES
+    ports:
+      - "6379:6379"
+    #END OF DEBUG
+    volumes:
+      - "/usr/src/open360/session_data:/data"
+      - "/usr/src/open360/redis.conf:/usr/local/etc/redis/redis.conf"
+    networks:
+      session-network:
+
+  mongodb:
+    image: mongo
+    container_name: open360-mongodb
+    hostname: open360-mongodb
+    #DEBUG VARIABLES
+    ports:
+      - "27017:27017"
+    #END OF DEBUG
+    volumes:
+      - "/usr/src/open360/mongo:/data/db"
+    networks:
+      mongodb-network:
+
+networks:
+  session-network:
+    external: true
+    name: "open360-session-network"
+  mongodb-network:
+    external: true
+    name: "open360-mongodb-network"
